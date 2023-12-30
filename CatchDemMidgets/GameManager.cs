@@ -7,9 +7,20 @@ namespace CatchDemMidgets;
 public class GameManager
 {
     private static GameManager? _instance;
+    
+    // PokemonList is a list of all the pokemon in the game
     private List<OPokemon> _pokemonList = new List<OPokemon>();
+    
+    // StarterPokemon is a list of all the starter pokemon in the game
     private List<OPokemon> _starterPokemon = new List<OPokemon>();
+    
+    // Bushes is a list of all the bushes in the game
     private List<OBush> _bushes = new List<OBush>();
+
+    // Instance of the player
+    private Player _player;
+    
+    private Random random = new Random();
 
     public static GameManager Instance
     {
@@ -26,12 +37,61 @@ public class GameManager
         InitializeStartingPokemon();
         InitializePokemon();
         InitiateBushes();
+        InitializePlayer();
+    }
+
+    private void InitializePlayer()
+    {
+        _player = new Player();
+        StringUtils.Print("Please choose a starter pokemon:");
+        StringUtils.Print("-----------------------------");
+        
+        for (var i = 0; i < _starterPokemon.Count; i++)
+        {
+            StringUtils.Print((i + 1) + ". " + _starterPokemon[i].Name);
+        }
+        
+        StringUtils.Print("-----------------------------");
+        var input = Console.ReadLine();
+
+        if (input?.Length > 0)
+        {
+            switch(input)
+            {
+                case "1":
+                    _player.Pokemon = _starterPokemon[0];
+                    break;
+                case "2":
+                    _player.Pokemon = _starterPokemon[1];
+                    break;
+                case "3":
+                    _player.Pokemon = _starterPokemon[2];
+                    break;
+                default:
+                    _player.Pokemon = _starterPokemon[0];
+                    break;
+            }
+            StringUtils.Print("You chose " + _player.Pokemon.Name + " as your starter pokemon!");
+            StringUtils.Print("You are now ready to start your adventure!\n");
+            BushSelection();
+        }
+    }
+
+    private void BushSelection()
+    {
+        StringUtils.Print("Oh no! The pokemon's are hiding in the bushes!");
+        StringUtils.Print("Which bush do you want to check?");
+        StringUtils.Print("-----------------------------");
+        for(var i = 0; i < _bushes.Count; i++)
+        {
+            StringUtils.Print("| " + (i + 1) + " ", false);
+        }
+        StringUtils.Print("\n-----------------------------");
     }
     
     private void InitializeStartingPokemon()
     {
         var builder = new IPokemonBuilder();
-        var random = new Random();
         
         // Turtwig
         builder.Reset();
@@ -58,8 +118,6 @@ public class GameManager
     private void InitializePokemon()
     {
         var builder = new IPokemonBuilder();
-        var random = new Random();
-
         var pokemonNames = new List<string>();
         
         pokemonNames.Add("Bulbasaur");
@@ -97,9 +155,7 @@ public class GameManager
 
     private void InitiateBushes()
     {
-        
         var tempPokemonList = new List<OPokemon>(_pokemonList);
-        var random = new Random();
         var bush = new OBush();
         
         for (var i = 0; i < 10; i++)
@@ -110,6 +166,4 @@ public class GameManager
             tempPokemonList.Remove(bush.Pokemon);
         }
     }
-
-
 }
