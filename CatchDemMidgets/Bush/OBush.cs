@@ -39,6 +39,11 @@ public class OBush : ICloneable
         get => _cleared;
         set => _cleared = value;
     }
+
+    public void ResetPokemonHp()
+    {
+        _pokemon.Hp = 100;
+    }
     
     public OBush Clone()
     {
