@@ -210,6 +210,12 @@ public class GameManager
 
         if (input.Length > 0)
         {
+            if (int.Parse(input) - 1 >= _player.Pokemon.Count)
+            {
+                StringUtils.Print("\n\n");
+                BattleSequenceTwo(bush);
+            }
+            
             _player.SelectedPokemon = _player.Pokemon[int.Parse(input) - 1];
 
             StringUtils.Print($"Fighting (AI) {bush.Pokemon.Name} with (Player) {_player.SelectedPokemon.Name}!");
@@ -280,21 +286,21 @@ public class GameManager
         builder.Reset();
         builder.SetName("Turtwig");
         builder.SetHp(100);
-        builder.SetDmg(random.Next(35, 50));
+        builder.SetDmg(random.Next(45, 75));
         _starterPokemon.Add(builder.GetPokemon());
 
         // Piplup
         builder.Reset();
         builder.SetName("Piplup");
         builder.SetHp(100);
-        builder.SetDmg(random.Next(35, 50));
+        builder.SetDmg(random.Next(45, 75));
         _starterPokemon.Add(builder.GetPokemon());
 
         // Charmander
         builder.Reset();
         builder.SetName("Charmander");
         builder.SetHp(100);
-        builder.SetDmg(random.Next(35, 50));
+        builder.SetDmg(random.Next(45, 75));
         _starterPokemon.Add(builder.GetPokemon());
     }
 
