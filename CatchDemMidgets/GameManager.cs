@@ -54,6 +54,12 @@ public class GameManager
         StringUtils.Print("-----------------------------");
         var input = Console.ReadLine();
 
+        if (input?.Length <= 0)
+        {
+            _player.Pokemon.Add(_starterPokemon[0]);
+            _player.SelectedPokemon = _player.Pokemon[0];
+        }
+
         if (input?.Length > 0)
         {
             switch (input)
@@ -75,12 +81,12 @@ public class GameManager
                     _player.SelectedPokemon = _player.Pokemon[0];
                     break;
             }
-
-            StringUtils.Print("You chose " + _player.SelectedPokemon.Name + " as your starter pokemon!");
-            StringUtils.Print("You are now ready to start your adventure!\n");
-            StringUtils.Print("Oh no! The pokemon's are hiding in the bushes!");
-            BushSelection();
         }
+        
+        StringUtils.Print("You chose " + _player.SelectedPokemon.Name + " as your starter pokemon!");
+        StringUtils.Print("You are now ready to start your adventure!");
+        StringUtils.Print("Oh no! The pokemon's are hiding in the bushes!");
+        BushSelection();
     }
 
     private void BushSelection()
@@ -102,8 +108,21 @@ public class GameManager
 
         var input = Console.ReadLine();
 
-        if (input.Length > 0)
+        if (input?.Length <= 0)
         {
+            StringUtils.Print("\n\n");
+            BushSelection();
+        }
+
+        if (input?.Length > 0)
+        {
+            if(int.Parse(input!) > _bushes.Count)
+            {
+                StringUtils.Print("\n\n");
+                BushSelection();
+                return;
+            }
+            
             if (_bushes[(int.Parse(input)) - 1].Cleared)
             {
                 StringUtils.Print("This bush has already been cleared!\n");
